@@ -1,2 +1,2 @@
-Main Color: 4c96d7
+Main Color: #
 Secondary Color: b1b1b1
