@@ -1,0 +1,2 @@
+Main Color: 4c96d7
+Secondary Color: b1b1b1
