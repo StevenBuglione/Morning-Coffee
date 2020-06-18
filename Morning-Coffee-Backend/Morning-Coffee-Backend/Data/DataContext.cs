@@ -11,7 +11,7 @@ namespace Morning_Coffee_Backend.Data
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
-        public DbSet<UserPhoto> Photos { get; set; }
+        public DbSet<Photo> Photos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -33,7 +33,7 @@ namespace Morning_Coffee_Backend.Data
 
             });
 
-            builder.Entity<UserPhoto>().HasQueryFilter(p => p.IsApproved);
+            builder.Entity<Photo>().HasQueryFilter(p => p.IsApproved);
         }
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Morning_Coffee_Backend.Migrations
 {
-    public partial class initialMigration : Migration
+    public partial class autoMapperFix : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -176,18 +176,17 @@ namespace Morning_Coffee_Backend.Migrations
                     IsMain = table.Column<bool>(nullable: false),
                     PublicId = table.Column<string>(nullable: true),
                     IsApproved = table.Column<bool>(nullable: false),
-                    UserId1 = table.Column<int>(nullable: true),
-                    UserId = table.Column<string>(nullable: true)
+                    UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Photos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Photos_AspNetUsers_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_Photos_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -228,9 +227,9 @@ namespace Morning_Coffee_Backend.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Photos_UserId1",
+                name: "IX_Photos_UserId",
                 table: "Photos",
-                column: "UserId1");
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

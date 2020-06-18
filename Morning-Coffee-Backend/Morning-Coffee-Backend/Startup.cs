@@ -1,13 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +22,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Morning_Coffee_Backend.Data;
+using Morning_Coffee_Backend.Data.Interfaces;
+using Morning_Coffee_Backend.Data.Repositories;
 using Morning_Coffee_Backend.Models;
+using Morning_Coffee_Backend.Utilities;
 
 namespace Morning_Coffee_Backend
 {
@@ -59,10 +65,9 @@ namespace Morning_Coffee_Backend
 
 
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //Change this for production build for more secure standards
+
             IdentityBuilder builder = services.AddIdentityCore<User>(opt =>
             {
                 opt.Password.RequireDigit = false;
@@ -89,8 +94,6 @@ namespace Morning_Coffee_Backend
                         ValidateAudience = false
                     };
                 });
-
-            //Best practice when adding policys for role managagment
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
@@ -113,17 +116,10 @@ namespace Morning_Coffee_Backend
                  Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
             services.AddCors();
-
-            //Configure CloudinarySetting for uploading user photos
-            /*
-            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
-
-            //Look into what exactly is going on here
-            services.AddAutoMapper(typeof(DatingRepository).Assembly);
-            */
-
-
-            services.AddControllers();
+            //services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
+            services.AddAutoMapper(typeof(CoffeeRepository).Assembly);
+            services.AddScoped<ICoffeeRepository, CoffeeRepository>();
+            services.AddScoped<LogUserActivity>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -133,16 +129,42 @@ namespace Morning_Coffee_Backend
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseExceptionHandler(builder =>
+                {
+                    builder.Run(async context =>
+                    {
+                        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-            app.UseHttpsRedirection();
+                        var error = context.Features.Get<IExceptionHandlerFeature>();
+                        if (error != null)
+                        {
+                            context.Response.AddApplicationError(error.Error.Message);
+                            await context.Response.WriteAsync(error.Error.Message);
+                        }
+                    });
+                });
+            }
+
+            // app.UseHttpsRedirection();
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
+            app.UseDefaultFiles();
+
+            app.UseStaticFiles();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapFallbackToController("Index", "Fallback");
+
             });
         }
     }
