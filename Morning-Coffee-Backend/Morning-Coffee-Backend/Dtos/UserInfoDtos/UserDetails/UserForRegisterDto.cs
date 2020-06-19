@@ -10,14 +10,15 @@ namespace Morning_Coffee_Backend.Dtos
         public string Username { get; set; }
 
         [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [Required]
         [StringLength(8, MinimumLength = 4, ErrorMessage = "You must specify password between 4 and 8 characters")]
         public string Password { get; set; }
 
         [Required]
         public string Gender { get; set; }
-
-        [Required]
-        public string KnownAs { get; set; }
 
         [Required]
         public DateTime DateOfBirth { get; set; }

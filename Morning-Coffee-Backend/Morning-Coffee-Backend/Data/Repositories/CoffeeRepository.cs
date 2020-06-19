@@ -84,10 +84,10 @@ namespace Morning_Coffee_Backend.Data.Repositories
             return photo;
         }
 
-        public async Task<Photo> GetMainPhotoForUser(int userId)
+        public async Task<Photo> GetProfilePictureForUser(int userId)
         {
             return await _context.Photos.Where(u => u.UserId == userId)
-                .FirstOrDefaultAsync(p => p.IsMain);
+                .FirstOrDefaultAsync(p => p.HasProfilePic);
 
         }
     }

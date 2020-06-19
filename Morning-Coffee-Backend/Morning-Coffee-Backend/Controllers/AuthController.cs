@@ -42,7 +42,7 @@ namespace Morning_Coffee_Backend.Controllers
 
             var result = await _userManger.CreateAsync(userToCreate, userForRegisterDto.Password);
 
-            await _userManger.AddToRoleAsync(userToCreate, "Member");
+            await _userManger.AddToRoleAsync(userToCreate, "Projectless");
 
             var userToReturn = _mapper.Map<UserForDetailedDto>(userToCreate);
 
@@ -67,7 +67,9 @@ namespace Morning_Coffee_Backend.Controllers
 
                 return Ok(new
                 {
+                    //JWT
                     token = GenerateJwtToken(user).Result,
+                    //userForListDto returned
                     user = appUser
                 });
 
@@ -76,6 +78,8 @@ namespace Morning_Coffee_Backend.Controllers
             return Unauthorized();
         }
 
+
+        //This is the Method the Generates the JWT Token
         private async Task<string> GenerateJwtToken(User user)
         {
             var claims = new List<Claim>

@@ -32,8 +32,6 @@ namespace Morning_Coffee_Backend.Data
                 .IsRequired();
 
             });
-
-            builder.Entity<Photo>().HasQueryFilter(p => p.IsApproved);
         }
     }
 }

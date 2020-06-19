@@ -12,12 +12,12 @@ namespace Morning_Coffee_Backend.Utilities
         {
             CreateMap<User, UserForListDto>()
                 .ForMember(dest => dest.PhotoUrl, opt =>
-                    opt.MapFrom(src => src.Photos.FirstOrDefault(p => p.IsMain).Url))
+                    opt.MapFrom(src => src.Photos.FirstOrDefault(p => p.HasProfilePic).Url))
                 .ForMember(dest => dest.Age, opt =>
                     opt.MapFrom(src => src.DateOfBirth.CalculateAge()));
             CreateMap<User, UserForDetailedDto>()
                 .ForMember(dest => dest.PhotoUrl, opt =>
-                        opt.MapFrom(src => src.Photos.FirstOrDefault(p => p.IsMain).Url))
+                        opt.MapFrom(src => src.Photos.FirstOrDefault(p => p.HasProfilePic).Url))
                 .ForMember(dest => dest.Age, opt =>
                         opt.MapFrom(src => src.DateOfBirth.CalculateAge()));
            

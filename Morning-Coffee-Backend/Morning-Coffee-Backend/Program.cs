@@ -18,10 +18,6 @@ namespace Morning_Coffee_Backend
     {
         public static void Main(string[] args)
         {
-
-            
-
-
             var host = CreateHostBuilder(args).Build();
             using (var scope = host.Services.CreateScope())
             {
@@ -30,24 +26,9 @@ namespace Morning_Coffee_Backend
                 {
                     var context = services.GetRequiredService<DataContext>();
                     var userManager = services.GetRequiredService<UserManager<User>>();
-                    var roleManager = services.GetRequiredService<RoleManager<Role>>();
-
-                    //create some roles
-                    var roles = new List<Role>
-                    {
-                        new Role{Name = "Member"},
-                        new Role{Name = "Admin"},
-                        new Role{Name = "Moderator"},
-                        new Role{Name = "VIP"}
-                     };
-
-                    foreach (var role in roles)
-                    {
-                        roleManager.CreateAsync(role).Wait();
-                    }
-
+                    var roleManage = services.GetRequiredService<RoleManager<Role>>();
                     context.Database.Migrate();
-                    //Seed.SeedUsers(userManager, roleManage);
+                    Seed.SeedUsers(userManager, roleManage);
                 }
                 catch (Exception ex)
                 {
@@ -66,6 +47,4 @@ namespace Morning_Coffee_Backend
                     webBuilder.UseStartup<Startup>();
                 });
     }
-
-   
 }

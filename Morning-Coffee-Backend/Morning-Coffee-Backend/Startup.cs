@@ -97,9 +97,10 @@ namespace Morning_Coffee_Backend
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
-                options.AddPolicy("ModeratePhotoRole", policy => policy.RequireRole("Admin",
-                    "Moderator"));
-                options.AddPolicy("VipOnly", policy => policy.RequireRole("VIP"));
+                options.AddPolicy("SiteModeratorRole", policy => policy.RequireRole("Admin",
+                    "Site Moderator"));
+                //Templete if you would like to add more roles with users policys
+                //options.AddPolicy("{$PolicyName}", policy => policy.RequireRole("{$RequiredRole}"));
             });
 
             services.AddControllers(options =>
@@ -116,7 +117,7 @@ namespace Morning_Coffee_Backend
                  Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
             services.AddCors();
-            //services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddAutoMapper(typeof(CoffeeRepository).Assembly);
             services.AddScoped<ICoffeeRepository, CoffeeRepository>();
             services.AddScoped<LogUserActivity>();

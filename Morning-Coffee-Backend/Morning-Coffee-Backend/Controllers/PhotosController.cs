@@ -80,8 +80,8 @@ namespace Morning_Coffee_Backend.Controllers
 
             var photo = _mapper.Map<Photo>(photoForCreationDto);
 
-            if (!userFromRepo.Photos.Any(u => u.IsMain))
-                photo.IsMain = true;
+            if (!userFromRepo.Photos.Any(u => u.HasProfilePic))
+                photo.HasProfilePic = true;
 
             userFromRepo.Photos.Add(photo);
 
@@ -94,6 +94,7 @@ namespace Morning_Coffee_Backend.Controllers
             return BadRequest("Could not add the photo");
         }
 
+        /*
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePhoto(int userId, int id)
         {
@@ -107,10 +108,10 @@ namespace Morning_Coffee_Backend.Controllers
 
             var photoFromRepo = await _repo.GetPhoto(id);
 
-            if (photoFromRepo.IsMain)
+            if (photoFromRepo.HasProfilePic)
                 return BadRequest("You cannot delete your main photo");
 
-            if (photoFromRepo.PublicId != null)
+            if (photoFromRepo. != null)
             {
 
                 var deleteParams = new DeletionParams(photoFromRepo.PublicId);
@@ -138,5 +139,6 @@ namespace Morning_Coffee_Backend.Controllers
 
             return BadRequest("Failded to delete the photo");
         }
+        */
     }
 }
