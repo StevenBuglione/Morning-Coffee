@@ -1,39 +1,56 @@
 <div class="location">
-  <form class="form-signin">
+  <div class="form-signin">
     <div class="background text-center">
       <div class="resizeImage ml-5 pl-3">
         <img class="mt-5" src="../../assets/Morning-Coffee-Logo.png" alt="" />
       </div>
       <div class="container">
         <h1 class="h3 font-weight-normal mt-3">Please sign in</h1>
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input
-          type="email"
-          id="inputEmail"
-          class="form-control"
-          placeholder="Email address"
-          required
-          autofocus
-        />
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input
-          type="password"
-          id="inputPassword"
-          class="form-control"
-          placeholder="Password"
-          required
-        />
-        <div class="checkbox mb-3">
-          <label>
-            <input type="checkbox" value="remember-me" /> Remember me
-          </label>
-        </div>
-        <div class="d-inline-flex">
-          <button type="button" class="btn btn-primary mr-1">Login</button>
-          <button type="button" class="btn btn-secondary">Register</button>
-        </div>
+        <label for="inputEmail" class="sr-only">Username/Email address</label>
+        <form #loginForm="ngForm" (ngSubmit)="login()">
+          <input
+            id="inputEmail"
+            class="form-control"
+            placeholder="Username/Email address"
+            name="username"
+            [(ngModel)]="model.username"
+            required
+            autofocus
+          />
+          <label for="inputPassword" class="sr-only">Password</label>
+          <input
+            type="password"
+            id="inputPassword"
+            class="form-control"
+            name="password"
+            placeholder="Password"
+            [(ngModel)]="model.password"
+            required
+          />
+          <div class="checkbox mb-3">
+            <label>
+              <input type="checkbox" value="remember-me" /> Remember me
+            </label>
+          </div>
+          <div class="d-inline-flex">
+            <button
+              type="submit"
+              [disabled]="!loginForm.valid"
+              class="btn btn-primary mr-1"
+            >
+              Login
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              [routerLink]="['/user/register']"
+            >
+              Register
+            </button>
+          </div>
+        </form>
         <p class="text-muted pb-5">&copy; Steven Buglione 2020</p>
       </div>
     </div>
-  </form>
+  </div>
 </div>

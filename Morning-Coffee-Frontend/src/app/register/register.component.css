@@ -1,20 +1,11 @@
-body {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-align: center;
-  align-items: center;
-  padding-top: 40px;
-  padding-bottom: 40px;
-}
-
 .location {
-  margin-top: 10%;
+  margin-top: 2rem;
+  overflow-y: auto;
 }
 
 .form-signin {
   width: 100%;
   max-width: 330px;
-
   margin: auto;
 }
 .form-signin .checkbox {
@@ -48,5 +39,5 @@ body {
 
 .background {
   background-color: white;
-  border-radius: 12%;
+  border-radius: 20%;
 }

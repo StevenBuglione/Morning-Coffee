@@ -1,7 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 @import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+@import "../node_modules/alertifyjs/build/css/alertify.min.css";
+@import "../node_modules/alertifyjs/build/css/themes/bootstrap.min.css";
+@import "../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css";
 
 body {
-  height: 100%;
-  background-color: #4c96d7;
+  background: #007bff;
+  background: linear-gradient(to right, #0062e6, #33aeff);
 }
